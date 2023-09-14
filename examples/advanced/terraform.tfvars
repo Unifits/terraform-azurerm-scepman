@@ -10,6 +10,6 @@ app_service_name_certificate_master = "app-scepmancm-dev-025"
 tags = {}
 
 app_settings_primary = {
-  "AppConfig:LicenseKey"                                   = "trial"
+  "AppConfig:LicenseKey"                                   = "gYKyjYb1Yv8CZQAAAABTEDIAAAAAAAAAYayyvBZ2jX/o1zafl+Q2XqEa7lxVbmlmaXRzIEdibUgA"
   "AppConfig:KeyVaultConfig:RootCertificateConfig:KeyType" = "RSA"
 }

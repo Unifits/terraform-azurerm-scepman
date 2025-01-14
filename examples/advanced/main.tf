@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.69.0"
+      version = ">= 3.102.0"
     }
   }
   backend "local" {}
@@ -33,7 +33,7 @@ module "scepman" {
   # source = "../.." # This is the local path to the module
 
   # Option 2: Use the terraform registry version
-  source = "glueckkanja-gab/scepman/azurerm"
+  source = "scepman/scepman/azurerm"
   # version = "0.1.0"
 
   organization_name   = var.organization_name

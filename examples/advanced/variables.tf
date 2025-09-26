@@ -40,6 +40,16 @@ variable "service_plan_name" {
   description = "Name of the service plan"
 }
 
+variable "service_plan_os_type" {
+  type    = string
+  default = "Windows"
+  validation {
+    condition     = can(regex("Windows|Linux", var.service_plan_os_type))
+    error_message = "service_plan_os_type must be either 'Windows' or 'Linux'"
+  }
+  description = "The type of operating system to use for the app service plan. Possible values are 'Windows' or 'Linux'."
+}
+
 variable "service_plan_sku" {
   type        = string
   default     = "S1"
@@ -154,4 +164,26 @@ variable "app_settings_certificate_master" {
   type        = map(string)
   default     = {}
   description = "A mapping of app settings to assign to the certificate master app service"
+}
+
+variable "app_service_minimum_tls_version_scepman" {
+  type        = string
+  default     = "1.2"
+  description = "Minimum Inbound TLS Version for SCEPman core App Service"
+
+  validation {
+    condition     = contains(["1.0", "1.1", "1.2", "1.3"], var.app_service_minimum_tls_version_scepman)
+    error_message = "The TLS version must be one of: 1.0, 1.1, 1.2, or 1.3."
+  }
+}
+
+variable "app_service_minimum_tls_version_certificate_master" {
+  type        = string
+  default     = "1.3"
+  description = "Minimum Inbound TLS Version for Certificate Master App Service"
+
+  validation {
+    condition     = contains(["1.0", "1.1", "1.2", "1.3"], var.app_service_minimum_tls_version_certificate_master)
+    error_message = "The TLS version must be one of: 1.0, 1.1, 1.2, or 1.3."
+  }
 }

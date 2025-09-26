@@ -19,6 +19,17 @@ variable "storage_account_name" {
   description = "Name of the storage account"
 }
 
+variable "storage_account_replication_type" {
+  type        = string
+  default     = "LRS"
+  description = "Storage account replication type. Valid options are LRS, ZRS, GRS, RAGRS, GZRS, RAGZRS."
+
+  validation {
+    condition     = contains(["LRS", "ZRS", "GRS", "RAGRS", "GZRS", "RAGZRS"], var.storage_account_replication_type)
+    error_message = "Storage account replication type must be one of: LRS, ZRS, GRS, RAGRS, GZRS, RAGZRS."
+  }
+}
+
 variable "law_name" {
   type        = string
   description = "Name for the Log Analytics Workspace"
@@ -39,6 +50,16 @@ variable "service_plan_sku" {
   type        = string
   default     = "S1"
   description = "SKU for App Service Plan"
+}
+
+variable "service_plan_os_type" {
+  type    = string
+  default = "Windows"
+  validation {
+    condition     = can(regex("Windows|Linux", var.service_plan_os_type))
+    error_message = "service_plan_os_type must be either 'Windows' or 'Linux'"
+  }
+  description = "The type of operating system to use for the app service plan. Possible values are 'Windows' or 'Linux'."
 }
 
 variable "service_plan_resource_id" {
@@ -88,6 +109,28 @@ variable "app_service_name_primary" {
   description = "Name of the primary app service"
 }
 
+variable "app_service_minimum_tls_version_scepman" {
+  type        = string
+  default     = "1.2"
+  description = "Minimum Inbound TLS Version for SCEPman core App Service"
+
+  validation {
+    condition     = contains(["1.0", "1.1", "1.2", "1.3"], var.app_service_minimum_tls_version_scepman)
+    error_message = "The TLS version must be one of: 1.0, 1.1, 1.2, or 1.3."
+  }
+}
+
+variable "app_service_minimum_tls_version_certificate_master" {
+  type        = string
+  default     = "1.3"
+  description = "Minimum Inbound TLS Version for Certificate Master App Service"
+
+  validation {
+    condition     = contains(["1.0", "1.1", "1.2", "1.3"], var.app_service_minimum_tls_version_certificate_master)
+    error_message = "The TLS version must be one of: 1.0, 1.1, 1.2, or 1.3."
+  }
+}
+
 variable "app_service_name_certificate_master" {
   type        = string
   description = "Name of the certificate master app service"
@@ -96,6 +139,12 @@ variable "app_service_name_certificate_master" {
 variable "key_vault_name" {
   type        = string
   description = "Name of the key vault"
+}
+
+variable "key_vault_use_rbac" {
+  type        = bool
+  default     = true
+  description = "Use RBAC for the key vault or the older access policies"
 }
 
 variable "vnet_name" {

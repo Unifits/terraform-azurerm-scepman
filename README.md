@@ -1,9 +1,3 @@
-
-> [!IMPORTANT]  
-> This Repo/Module was moved to another GitHub Org.  
-> If you have previously used glueckkanja-gab/scepman/azurerm as source, please switch to the new name:  
-> [scepman/scepman/azurerm](https://registry.terraform.io/modules/scepman/scepman/azurerm/latest)  
-
 # SCEPman - Certificates Simplified
 
 [SCEPman Docs](https://docs.scepman.com)
@@ -50,7 +44,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 3.102.0"
+      version = ">= 4.8"
     }
   }
   backend "local" {}
@@ -90,6 +84,7 @@ module "scepman" {
   key_vault_name       = var.key_vault_name
   law_name             = var.law_name
 
+  service_plan_os_type                = "Windows"
   service_plan_name                   = var.service_plan_name
   app_service_name_primary            = var.app_service_name_primary
   app_service_name_certificate_master = var.app_service_name_certificate_master
@@ -107,6 +102,8 @@ module "scepman" {
 | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------- | :------: |
 | <a name="input_app_service_name_certificate_master"></a> [app\_service\_name\_certificate\_master](#input\_app\_service\_name\_certificate\_master) | Name of the certificate master app service                                | `string`      | n/a                                                                                                   |   yes    |
 | <a name="input_app_service_name_primary"></a> [app\_service\_name\_primary](#input\_app\_service\_name\_primary)                                    | Name of the primary app service                                           | `string`      | n/a                                                                                                   |   yes    |
+| <a name="input_app_service_minimum_tls_version_scepman"></a> [app\_service\_minimum\_tls\_version\_scepman](#input\_app\_service\_minimum\_tls\_version\_scepman) | Minimum Inbound TLS Version for SCEPman core App Service                 | `string`      | `1.2`                                                                                                  |    no    |
+| <a name="input_app_service_minimum_tls_version_certificate_master"></a> [app\_service\_minimum\_tls\_version\_certificate\_master](#input\_app\_service\_minimum\_tls\_version\_certificate\_master) | Minimum Inbound TLS Version for Certificate Master App Service           | `string`      | `1.3`                                                                                                  |    no    |
 | <a name="input_app_settings_certificate_master"></a> [app\_settings\_certificate\_master](#input\_app\_settings\_certificate\_master)               | A mapping of app settings to assign to the certificate master app service | `map(string)` | `{}`                                                                                                  |    no    |
 | <a name="input_app_settings_primary"></a> [app\_settings\_primary](#input\_app\_settings\_primary)                                                  | A mapping of app settings to assign to the primary app service            | `map(string)` | `{}`                                                                                                  |    no    |
 | <a name="input_artifacts_url_primary"></a> [artifacts\_url\_primary](#input\_artifacts\_url\_primary)                                               | URL to the artifacts of the primary SCEPman Service                       | `string`      | `"https://raw.githubusercontent.com/scepman/install/master/dist/Artifacts.zip"`                       |    no    |
@@ -121,11 +118,15 @@ module "scepman" {
 | <a name="input_location"></a> [location](#input\_location)                                                                                          | Azure Region where the resources should be created                        | `string`      | n/a                                                                                                   |   yes    |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)                                                     | Name of the resource group                                                | `string`      | n/a                                                                                                   |   yes    |
 | <a name="input_service_plan_name"></a> [service\_plan\_name](#input\_service\_plan\_name)                                                           | Name of the service plan                                                  | `string`      | n/a                                                                                                   |   yes    |
+| <a name="input_service_plan_os_type"></a> [service\_plan\_os\_type](#input\_service\_plan\_os\_type)                                                              | OS of the service plan. Either "Windows" or "Linux"                                                   | `string`      | `Windows`                                                                                                  |    no    |
 | <a name="input_service_plan_sku"></a> [service\_plan\_sku](#input\_service\_plan\_sku)                                                              | SKU of the service plan                                                   | `string`      | `S1`                                                                                                  |    no    |
 | <a name="input_service_plan_resource_id"></a> [service\_plan\_resource\_id](#input\_service\_plan\_resource\_id)                                    | Resource ID of the service plan                                           | `string`      | `null`                                                                                                |    no    |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name)                                                  | Name of the storage account                                               | `string`      | n/a                                                                                                   |   yes    |
+| <a name="input_storage_account_replication_type"></a> [storage\_account\_replication\_type](#input\_storage\_account\_replication\_type)           | Storage account replication type. Valid options are LRS, ZRS, GRS, RAGRS, GZRS, RAGZRS. | `string`      | `LRS`                                                                                                 |    no    |
 | <a name="input_organization_name"></a> [organization\_name](#input\organization\_name)                                                              | Your organization name presented in the O= field of the root certificate  | `string`      | `my-org`                                                                                              |    no    |
+| <a name="input_key_vault_use_rbac"></a> [key\_vault\_use\_rbac](#input\_key\_vault\_use\_rbac)                                                        | Use RBAC for the key vault or the older access policies                   | `bool`        | `true`                                                                                                |    no    |
 | <a name="input_tags"></a> [tags](#input\_tags)                                                                                                      | A mapping of tags to assign to the resource                               | `map(string)` | `{}`                                                                                                  |    no    |
+
 
 ### Optional App Service Logging settings
 
